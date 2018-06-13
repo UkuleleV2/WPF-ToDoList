@@ -24,36 +24,24 @@ namespace ToDoApp
     {
         List<Task> ListOfTasks = new List<Task>();
         CollectionViewSource TableList = new CollectionViewSource();
-        
+        string currentfile;
         public MainWindow()
         {
             InitializeComponent();
-            this.ReadFile("C:/test/tasks.txt");
+            currentfile = "tasks.tskk";
+            this.ReadFile(currentfile);
             TableList.Source = ListOfTasks;
             this.table.ItemsSource = TableList.View;
             all.IsChecked = true;
         }
-        private void ReadFile(string path)
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {   // Open the text file using a stream reader.
-                using (StreamReader file = new StreamReader(path))
-                {
-                    string line;
-                    while ((line = file.ReadLine()) != null)
-                    {
-                        string[] words = line.Split('|');
-                        DateTime date = DateTime.ParseExact(words[0], "yyyy-MM-dd",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-                        ListOfTasks.Add(new Task(date, words[1], Int32.Parse(words[2]),words[3]));        
-                    }
-                    file.Close();
-                }
-            }
-            catch (Exception e)
+            Add win = new Add();
+            win.ShowDialog();
+            if (win.added == true)
             {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.Message);
+                ListOfTasks.Add(new Task(win.datepick.SelectedDate.Value, win.title.Text, (int)win.slider.Value, win.descrpition.Text));
+                TableList.View.Refresh();
             }
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -205,17 +193,7 @@ namespace ToDoApp
                 }
             }
         }
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
-            Add win = new Add();
-            win.ShowDialog();
-            win.added = false;
-            if (win.added == true)
-            {
-                ListOfTasks.Add(new Task(win.datepick.SelectedDate.Value,win.title.Text,(int)win.slider.Value,win.descrpition.Text));
-                TableList.View.Refresh();
-            }
-        }
+
         private void Notcompleted_Selected(object sender, RoutedEventArgs e)
         {
             if(all.IsChecked == true)
@@ -228,10 +206,79 @@ namespace ToDoApp
                 TableList.Filter += new FilterEventHandler(Today_Checked);
 
         }
-
+        private void ReadFile(string path)
+        {
+            try
+            {   // Open the text file using a stream reader.
+                using (StreamReader file = new StreamReader(path))
+                {
+                    ListOfTasks.Clear();
+                    string line;
+                    while ((line = file.ReadLine()) != null)
+                    {
+                        string[] words = line.Split('|');
+                        DateTime date = DateTime.ParseExact(words[0], "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+                        ListOfTasks.Add(new Task(date, words[1], Int32.Parse(words[2]), words[3]));
+                    }
+                    file.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+        }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            using (StreamWriter outputFile = new StreamWriter(currentfile, true))
+            {
+                for (int i = 0; i < ListOfTasks.Count;i++)
+                {
+                        outputFile.WriteLine(ListOfTasks[i].Date.ToString("yyyy-MM-dd") +"|"+ ListOfTasks[i].Title + "|" + ListOfTasks[i].Completion.ToString()+"|"+ ListOfTasks[i].Description);
+                }
+                MessageBox.Show("File Saved!");
 
+            }
+        }
+        private void New_File(object sender, RoutedEventArgs e)
+        {
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Document"; // Default file name
+            dlg.DefaultExt = ".tskk"; // Default file extension
+            dlg.Filter = "Task files (.tskk)|*.tskk"; // Filter files by extension
+
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+                currentfile = dlg.FileName;
+            }
+        }
+
+        private void Open_File(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Document"; // Default file name
+            dlg.DefaultExt = ".tskk"; // Default file extension
+            dlg.Filter = "Task files (.tskk)|*.tskk"; // Filter files by extension
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                // Open document
+                currentfile = dlg.FileName;
+                this.ReadFile(currentfile);
+                TableList.View.Refresh();
+            }
         }
     }
 }

@@ -28,8 +28,17 @@ namespace ToDoApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            added = true;
-            this.Close();
+            if (title.Text == "" && descrpition.Text == "" )
+            {
+                MessageBox.Show("Title or description is empty");
+            }
+            else
+            {
+                added = true;
+                this.Close();
+            }
+            
+
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
