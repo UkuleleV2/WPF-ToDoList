@@ -96,7 +96,7 @@ namespace ToDoApp
             }
         }
 
-        private void Overdue_Checked(object sender)
+        private void Overdue_Checked(object sender, FilterEventArgs e)
         {
 
         }
@@ -106,11 +106,30 @@ namespace ToDoApp
 
         }
 
-        private void Thisweek_Checked(object sender, FilterEventArgs e)
+        private void Thisweek_Checked(object sender)
         {
 
         }
-
+        private void Checker(object sender, RoutedEventArgs e)
+        {
+            if (all.IsChecked == true)
+            {
+                TableList.View.Filter = All_Checked;
+            }
+            else if (today.IsChecked == true)
+            {
+                TableList.View.Filter = Today_Checked;
+            }
+            else if (overdue.IsChecked == true)
+            {
+                TableList.View.Filter = Overdue_Checked;
+            }
+            else if (thisweek.IsChecked == true)
+            {
+                TableList.View.Filter = Thisweek_Checked;
+            }
+                
+        }
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             Add win = new Add();

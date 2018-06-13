@@ -31,10 +31,10 @@
                     <ColumnDefinition Width="141*"/>
                     <ColumnDefinition Width="113*"/>
                 </Grid.ColumnDefinitions>
-                <RadioButton Content="All" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Checked="All_Checked"/>
-                <RadioButton Content="Overdue" HorizontalAlignment="Left" Margin="100,6,0,0" VerticalAlignment="Top" Checked="Overdue_Checked"/>
-                <RadioButton Content="Today" HorizontalAlignment="Left" Margin="190,6,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.776,0.2" Checked="Today_Checked"/>
-                <RadioButton Content="This Week" HorizontalAlignment="Left" Margin="280,6,0,0" VerticalAlignment="Top" Checked="Thisweek_Checked"/>
+                <RadioButton x:Name="all" Content="All" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Checked="Checker"/>
+                <RadioButton x:Name="overdue" Content="Overdue" HorizontalAlignment="Left" Margin="100,6,0,0" VerticalAlignment="Top" Checked="Checker"/>
+                <RadioButton x:Name="today" Content="Today" HorizontalAlignment="Left" Margin="190,6,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.776,0.2" Checked="Checker"/>
+                <RadioButton x:Name="thisweek" Content="This Week" HorizontalAlignment="Left" Margin="280,6,0,0" VerticalAlignment="Top" Checked="Checker"/>
                 <CheckBox x:Name="notcompleted" Content="Not Completed" HorizontalAlignment="Left" Margin="219,6,0,0" VerticalAlignment="Top" Width="110" Grid.Column="1" Click="Notcompleted_Selected" />
             </Grid>
         </GroupBox>
