@@ -32,6 +32,7 @@ namespace ToDoApp
             TableList.Source = ListOfTasks;
             this.table.ItemsSource = TableList.View;
             TableList.Filter += new FilterEventHandler(All_Checked);
+            all.IsChecked = true;
         }
         private void ReadFile(string path)
         {
@@ -79,56 +80,59 @@ namespace ToDoApp
             }
 
         }
+        private void AllFilter(object sender, RoutedEventArgs e)
+        {
+            TableList.Filter += new FilterEventHandler(All_Checked);
+        }
+        private void OverdueFilter(object sender, RoutedEventArgs e)
+        {
+            TableList.Filter += new FilterEventHandler(Overdue_Checked);
+        }
+        private void ThisweekFilter(object sender, RoutedEventArgs e)
+        {
+            TableList.Filter += new FilterEventHandler(Thisweek_Checked);
+        }
+        private void TodayFilter(object sender, RoutedEventArgs e)
+        {
+            TableList.Filter += new FilterEventHandler(Today_Checked);
+        }
         private void All_Checked(object sender, FilterEventArgs e)
         {
+            Console.WriteLine("all");
             Task task = e.Item as Task;
             if (task != null)
             {
                 // Filter out products with price 25 or above
-                if (notcompleted.IsChecked == true && task.Completion < 100)
-                {
-                    e.Accepted = true;
-                }
+                if (notcompleted.IsChecked == true)
+                    if(task.Completion<100)
+                        {
+                            e.Accepted = false;
+                        }
+                        else
+                        {
+                            e.Accepted = true;
+                        }
                 else
                 {
-                    e.Accepted = false;
+                    e.Accepted = true;
                 }
             }
         }
 
+
         private void Overdue_Checked(object sender, FilterEventArgs e)
         {
-
+            Console.WriteLine("over");
         }
 
         private void Today_Checked(object sender, FilterEventArgs e)
         {
-
+            Console.WriteLine("tod");
         }
 
-        private void Thisweek_Checked(object sender)
+        private void Thisweek_Checked(object sender, FilterEventArgs e)
         {
-
-        }
-        private void Checker(object sender, RoutedEventArgs e)
-        {
-            if (all.IsChecked == true)
-            {
-                TableList.View.Filter = All_Checked;
-            }
-            else if (today.IsChecked == true)
-            {
-                TableList.View.Filter = Today_Checked;
-            }
-            else if (overdue.IsChecked == true)
-            {
-                TableList.View.Filter = Overdue_Checked;
-            }
-            else if (thisweek.IsChecked == true)
-            {
-                TableList.View.Filter = Thisweek_Checked;
-            }
-                
+            Console.WriteLine("week");
         }
         private void Add_Click(object sender, RoutedEventArgs e)
         {
