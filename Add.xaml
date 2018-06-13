@@ -11,10 +11,11 @@
         <Label Content="Title" HorizontalAlignment="Left" Margin="96,120,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.483,-0.955"/>
         <Label Content="Completion" HorizontalAlignment="Left" Margin="96,180,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.517,-0.631"/>
         <Label Content="Description" HorizontalAlignment="Left" Margin="96,240,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.101,0.694"/>
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="274,188,0,0" VerticalAlignment="Top" Width="263" ValueChanged="slider_ValueChanged"/>
+        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="274,188,0,0" VerticalAlignment="Top" IsSnapToTickEnabled ="True" Width="263" ValueChanged="slider_ValueChanged" Minimum="0" Maximum="100"/>
         <TextBox x:Name="title" HorizontalAlignment="Left" Height="23" Margin="274,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="263"/>
         <DatePicker x:Name="datepick" HorizontalAlignment="Left" Margin="274,62,0,0" VerticalAlignment="Top" Width="263"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="274,344,0,0" VerticalAlignment="Top" Width="263" Height="29" Click="Button_Click"/>
         <TextBox x:Name="descrpition" HorizontalAlignment="Left" Height="70" Margin="274,244,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="263" />
+        <Label x:Name="slidervalue" Content="" HorizontalAlignment="Left" Margin="542,188,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.352,0.285"/>
     </Grid>
 </Window>

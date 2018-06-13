@@ -31,7 +31,6 @@ namespace ToDoApp
             this.ReadFile("C:/test/tasks.txt");
             TableList.Source = ListOfTasks;
             this.table.ItemsSource = TableList.View;
-            TableList.Filter += new FilterEventHandler(All_Checked);
             all.IsChecked = true;
         }
         private void ReadFile(string path)
@@ -98,7 +97,6 @@ namespace ToDoApp
         }
         private void All_Checked(object sender, FilterEventArgs e)
         {
-            Console.WriteLine("all");
             Task task = e.Item as Task;
             if (task != null)
             {
@@ -106,11 +104,11 @@ namespace ToDoApp
                 if (notcompleted.IsChecked == true)
                     if(task.Completion<100)
                         {
-                            e.Accepted = false;
+                            e.Accepted = true;
                         }
                         else
                         {
-                            e.Accepted = true;
+                            e.Accepted = false;
                         }
                 else
                 {
@@ -122,17 +120,90 @@ namespace ToDoApp
 
         private void Overdue_Checked(object sender, FilterEventArgs e)
         {
-            Console.WriteLine("over");
+            Task task = e.Item as Task;
+            if (task != null)
+            {
+                // Filter out products with price 25 or above
+                if (notcompleted.IsChecked == true)
+                    if (task.Completion < 100 && task.Date < DateTime.Today)
+                    {
+                        e.Accepted = true;
+                    }
+                    else
+                    {
+                        e.Accepted = false;
+                    }
+                else 
+                {
+                    if (task.Date < DateTime.Today)
+                    {
+                        e.Accepted = true;
+                    }
+                    else
+                    {
+                        e.Accepted = false;
+                    }
+                }
+            }
         }
 
         private void Today_Checked(object sender, FilterEventArgs e)
         {
-            Console.WriteLine("tod");
+            Task task = e.Item as Task;
+            DateTime current = DateTime.Now;
+            if (task != null)
+            {
+                if (notcompleted.IsChecked == true)
+                    if (task.Completion < 100 && task.Date == DateTime.Today)
+                    {
+                        e.Accepted = true;
+                    }
+                    else
+                    {
+                        e.Accepted = false;
+                    }
+                else
+                {
+                    if (task.Date == DateTime.Today)
+                    {
+                        e.Accepted = true;
+                    }
+                    else
+                    {
+                        e.Accepted = false;
+                    }
+                }
+            }
         }
 
         private void Thisweek_Checked(object sender, FilterEventArgs e)
         {
-            Console.WriteLine("week");
+            Task task = e.Item as Task;
+            DateTime current = DateTime.Today.AddDays(7);
+            if (task != null)
+            {
+                // Filter out products with price 25 or above
+                if (notcompleted.IsChecked == true)
+                    if (task.Completion < 100 && task.Date < DateTime.Today.AddDays(7) && task.Date >= DateTime.Today)
+                    {
+                        e.Accepted = true;
+                    }
+                    else
+                    {
+                        e.Accepted = false;
+                    }
+                else
+                {
+                    if (task.Date < DateTime.Today.AddDays(7) && task.Date >= DateTime.Today)
+                    {
+                        e.Accepted = true;
+                    }
+                    else
+                    {
+                        e.Accepted = false;
+                    }
+                }
+            }
         }
         private void Add_Click(object sender, RoutedEventArgs e)
         {
@@ -147,8 +218,17 @@ namespace ToDoApp
         }
         private void Notcompleted_Selected(object sender, RoutedEventArgs e)
         {
+            if(all.IsChecked == true)
+                TableList.Filter += new FilterEventHandler(All_Checked);
+            else if (overdue.IsChecked == true)
+                TableList.Filter += new FilterEventHandler(Overdue_Checked);
+            else if (thisweek.IsChecked == true)
+                TableList.Filter += new FilterEventHandler(Thisweek_Checked);
+            else if(today.IsChecked == true)
+                TableList.Filter += new FilterEventHandler(Today_Checked);
 
         }
+
         private void Save_Click(object sender, RoutedEventArgs e)
         {
 

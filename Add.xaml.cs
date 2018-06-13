@@ -24,12 +24,6 @@ namespace ToDoApp
         {
             InitializeComponent();
             added = false;
-
-        }
-        public Add(Task task)
-        {
-            InitializeComponent();
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -40,7 +34,7 @@ namespace ToDoApp
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
+            slidervalue.Content = slider.Value.ToString();
         }
     }
 }
