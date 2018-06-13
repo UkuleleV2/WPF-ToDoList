@@ -1,0 +1,67 @@
+﻿<Window x:Class="ToDoApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToDoApp"
+        mc:Ignorable="d"
+        Title="To Do List" Height="450" Width="800">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="166*"/>
+            <RowDefinition Height="218*"/>
+        </Grid.RowDefinitions>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" />
+                    <MenuItem Header="_Open" />
+                    <MenuItem Header="_Save" />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <GroupBox Header="" Height="56" Margin="10,0" VerticalAlignment="Top" Grid.Row="1">
+            <Grid HorizontalAlignment="Left" Height="31" Margin="0,0,-2,3" VerticalAlignment="Bottom" Width="762">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="141*"/>
+                    <ColumnDefinition Width="113*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton Content="All" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Checked="All_Checked"/>
+                <RadioButton Content="Overdue" HorizontalAlignment="Left" Margin="100,6,0,0" VerticalAlignment="Top" Checked="Overdue_Checked"/>
+                <RadioButton Content="Today" HorizontalAlignment="Left" Margin="190,6,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.776,0.2" Checked="Today_Checked"/>
+                <RadioButton Content="This Week" HorizontalAlignment="Left" Margin="280,6,0,0" VerticalAlignment="Top" Checked="Thisweek_Checked"/>
+                <CheckBox x:Name="notcompleted" Content="Not Completed" HorizontalAlignment="Left" Margin="219,6,0,0" VerticalAlignment="Top" Width="110" Grid.Column="1" Click="Notcompleted_Selected" />
+            </Grid>
+        </GroupBox>
+        <DataGrid x:Name="table" Background="white" IsReadOnly="True"  AutoGenerateColumns ="false" CanUserAddRows="false" HorizontalAlignment="Left" Height="261" Margin="10,60,0,0" Grid.Row="1" VerticalAlignment="Top" Width="772" Grid.RowSpan="2">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Duedate" Binding="{Binding Date, StringFormat=\{0:dd-MM-yyyy\}}" Width="Auto" />
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="Completion" Binding="{Binding Completion}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <GroupBox Header="" HorizontalAlignment="Left" Height="48" Margin="10,160,0,0" Grid.Row="2" VerticalAlignment="Top" Width="772">
+            <Grid HorizontalAlignment="Left" Height="23" Margin="0,0,-2,0" VerticalAlignment="Top" Width="762">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="392*"/>
+                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="360*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Add" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="160" Height="23" Click="Add_Click"/>
+                <Button Content="Save" HorizontalAlignment="Left" Margin="160,0,0,0" VerticalAlignment="Top" Width="160" Grid.Column="2" Height="23" Click="Save_Click"/>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</Window>
